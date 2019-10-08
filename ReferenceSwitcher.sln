@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D40CD406-4653-4099-81DF-2B0300C74277}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceSwitcher", "ReferenceSwitcher\ReferenceSwitcher.csproj", "{4973D93D-55FC-438B-A5BA-FD50489736D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceSwitcher", "VSIXProject1\ReferenceSwitcher.csproj", "{9D53F4B0-A2A3-4E8D-9E99-E102E1FE9005}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,16 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4973D93D-55FC-438B-A5BA-FD50489736D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4973D93D-55FC-438B-A5BA-FD50489736D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4973D93D-55FC-438B-A5BA-FD50489736D8}.MonoDebug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4973D93D-55FC-438B-A5BA-FD50489736D8}.MonoDebug|Any CPU.Build.0 = Debug|Any CPU
-		{4973D93D-55FC-438B-A5BA-FD50489736D8}.MonoRelease|Any CPU.ActiveCfg = Release|Any CPU
-		{4973D93D-55FC-438B-A5BA-FD50489736D8}.MonoRelease|Any CPU.Build.0 = Release|Any CPU
-		{4973D93D-55FC-438B-A5BA-FD50489736D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4973D93D-55FC-438B-A5BA-FD50489736D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D53F4B0-A2A3-4E8D-9E99-E102E1FE9005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D53F4B0-A2A3-4E8D-9E99-E102E1FE9005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D53F4B0-A2A3-4E8D-9E99-E102E1FE9005}.MonoDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D53F4B0-A2A3-4E8D-9E99-E102E1FE9005}.MonoDebug|Any CPU.Build.0 = Debug|Any CPU
+		{9D53F4B0-A2A3-4E8D-9E99-E102E1FE9005}.MonoRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{9D53F4B0-A2A3-4E8D-9E99-E102E1FE9005}.MonoRelease|Any CPU.Build.0 = Release|Any CPU
+		{9D53F4B0-A2A3-4E8D-9E99-E102E1FE9005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D53F4B0-A2A3-4E8D-9E99-E102E1FE9005}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {273DA149-3A3D-468D-A950-F5D5B518F81C}
 	EndGlobalSection
 EndGlobal

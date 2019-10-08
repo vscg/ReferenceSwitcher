@@ -1,10 +1,17 @@
-﻿using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using ReferenceSwitcher;
-using System;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.InteropServices;
-
+using System.ComponentModel.Design;
+using Microsoft.Win32;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Shell;
+using ReferenceSwitcher;
+using System.Threading;
+using System.Threading.Tasks;
+using EnvDTE;
 
 namespace Microsoft.VSPackage1
 {
@@ -25,29 +32,35 @@ namespace Microsoft.VSPackage1
     /// </summary>
     // This attribute tells the PkgDef creation utility (CreatePkgDef.exe) that this class is
     // a package.
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     // This attribute is used to register the informations needed to show the this package
     // in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string, PackageAutoLoadFlags.BackgroundLoad)]
     [Guid(GuidList.guidVSPackage1PkgString)]
-    public sealed class VSPackage1Package : Package
+    public sealed class VSPackage1Package : AsyncPackage
     {
-        private EnvDTE.SolutionEvents solutionEvents;
+        private SolutionEvents solutionEvents;
         private ReferenceHelper referenceHelper;
 
         public VSPackage1Package()
         {
         }
 
-        protected override void Initialize()
+        protected override System.Threading.Tasks.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            base.Initialize();
+            return InternalInitializeAsync(cancellationToken);
+        }
+
+        private async System.Threading.Tasks.Task InternalInitializeAsync(CancellationToken cancellationToken)
+        {
             referenceHelper = new ReferenceHelper(this.AskUserToProceed);
 
-            var envDTE = (EnvDTE.DTE)GetService(typeof (EnvDTE.DTE));
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            var envDTE = (DTE)await GetServiceAsync(typeof(DTE));
+            Assumes.Present(envDTE);
             solutionEvents = envDTE.Events.SolutionEvents;
             solutionEvents.ProjectAdded += referenceHelper.SolutionEvents_ProjectAdded;
             solutionEvents.ProjectRemoved += referenceHelper.SolutionEvents_ProjectRemoved;
@@ -55,11 +68,13 @@ namespace Microsoft.VSPackage1
 
         private bool AskUserToProceed(string title, string text)
         {
-            var uiShell = (IVsUIShell) GetService(typeof (SVsUIShell));
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var uiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
+            Assumes.Present(uiShell);
             // Show a Message Box to prove we were here
             Guid clsid = Guid.Empty;
             int result;
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
+            _ = ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
                        0,
                        ref clsid,
                        title,
